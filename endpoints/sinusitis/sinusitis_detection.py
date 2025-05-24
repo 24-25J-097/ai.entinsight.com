@@ -8,8 +8,8 @@ import io
 # Get absolute path to model files (dynamically relative to the current file)
 current_dir = os.path.dirname(os.path.abspath(__file__))  # Current file directory
 
-image_validator_model_path = os.path.join(current_dir, 'waters_view_validator.h5')
-model_path = os.path.join(current_dir, 'inceptionV3_updated.h5')
+image_validator_model_path = os.path.join(current_dir, 'models/waters_view_validator.h5')
+model_path = os.path.join(current_dir, 'models/inceptionV3_updated.h5')
 
 # Labels
 class_names = ["mild", "moderate", "severe"]
