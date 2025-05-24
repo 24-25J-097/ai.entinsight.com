@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO)
 # Set up CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://entinsight.com", "https://api.entinsight.com"],  # Adjust based on your frontend's URL
+    allow_origins=["https://entinsight.com", 'https://www.entinsight.com', "https://api.entinsight.com"],  # Adjust based on your frontend's URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
