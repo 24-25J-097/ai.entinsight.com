@@ -61,4 +61,4 @@ Thumbs.db
 # keras/
 
 # Large Files
-/cholesteatoma/models/ResNet50_endoscopy_image_validator.h5
+/endpoints/cholesteatoma/models/ResNet50_endoscopy_image_validator.h5
