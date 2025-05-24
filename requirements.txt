@@ -1,0 +1,9 @@
+load_dotenv
+fastapi==0.98.0
+uvicorn==0.23.0
+pillow==9.2.0
+opencv-python==4.6.0.66
+python-multipart
+inference-sdk==0.29.2
+tensorflow==2.10.0
+numpy==1.23.0
