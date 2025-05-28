@@ -6,7 +6,7 @@ from endpoints import process_xray_image, process_endoscopy_image, process_oral_
 router = APIRouter()
 
 # Test route to check server status
-@router.get("/apiStatus")
+@router.get("/status")
 async def test_api():
     """
     Test route to check if the API server is running.
