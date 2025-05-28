@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Medical Image Analysis API</title>
+   <script src="https://cdn.tailwindcss.com"></script>
+   <script>
+      tailwind.config = {
+         theme: {
+            extend: {
+               colors: {
+                  primary: '#3B82F6',
+                  secondary: '#1E40AF',
+                  accent: '#10B981',
+                  danger: '#EF4444',
+                  warning: '#F59E0B',
+               }
+            }
+         }
+      }
+   </script>
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+   <!-- Header -->
+   <header class="bg-white shadow-sm border-b border-gray-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+         <div class="flex justify-between items-center py-6">
+            <div class="flex items-center">
+               <i class="fas fa-stethoscope text-primary text-3xl mr-3"></i>
+               <h1 class="text-2xl font-bold text-gray-900">Medical Image Analysis</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+               <span class="text-sm text-gray-500">API Status:</span>
+               <span id="apiStatus" class="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800">
+                  Checking...
+               </span>
+            </div>
+         </div>
+      </div>
+   </header>
+
+   <!-- Main Content -->
+   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Welcome Section -->
+      <div class="bg-gradient-to-r from-primary to-secondary rounded-lg p-8 text-white mb-8">
+         <h2 class="text-3xl font-bold mb-4">Advanced Medical Image Analysis</h2>
+         <p class="text-lg opacity-90">Upload medical images for AI-powered analysis using our deep learning models</p>
+      </div>
+
+      <!-- Analysis Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+         <!-- Sinusitis Analysis -->
+         <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <div class="p-6">
+               <div class="flex items-center mb-4">
+                  <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                     <i class="fas fa-head-side-mask text-blue-600 text-xl"></i>
+                  </div>
+                  <h3 class="text-xl font-semibold text-gray-900">Sinusitis Analysis</h3>
+               </div>
+               <p class="text-gray-600 mb-4">Analyze sinus images for signs of sinusitis and inflammation</p>
+               <div class="space-y-4">
+                  <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-primary transition-colors duration-300">
+                     <input type="file" id="sinusitis-file" accept="image/*" class="hidden" onchange="handleFileSelect(this, 'sinusitis')">
+                     <label for="sinusitis-file" class="cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-gray-400 text-2xl mb-2 block"></i>
+                        <span class="text-gray-600">Click to upload image</span>
+                     </label>
+                  </div>
+                  <button onclick="analyzeImage('sinusitis')" class="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-secondary transition-colors duration-300 disabled:opacity-50" disabled>
+                     <i class="fas fa-search mr-2"></i>Analyze Sinusitis
+                  </button>
+               </div>
+            </div>
+         </div>
+
+         <!-- Cholesteatoma Analysis -->
+         <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <div class="p-6">
+               <div class="flex items-center mb-4">
+                  <div class="bg-green-100 p-3 rounded-lg mr-4">
+                     <i class="fas fa-ear-deaf text-green-600 text-xl"></i>
+                  </div>
+                  <h3 class="text-xl font-semibold text-gray-900">Cholesteatoma Analysis</h3>
+               </div>
+               <p class="text-gray-600 mb-4">Detect cholesteatoma in ear examination images</p>
+               <div class="space-y-4">
+                  <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-primary transition-colors duration-300">
+                     <input type="file" id="cholesteatoma-file" accept="image/*" class="hidden" onchange="handleFileSelect(this, 'cholesteatoma')">
+                     <label for="cholesteatoma-file" class="cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-gray-400 text-2xl mb-2 block"></i>
+                        <span class="text-gray-600">Click to upload image</span>
+                     </label>
+                  </div>
+                  <button onclick="analyzeImage('cholesteatoma')" class="w-full bg-accent text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors duration-300 disabled:opacity-50" disabled>
+                     <i class="fas fa-search mr-2"></i>Analyze Cholesteatoma
+                  </button>
+               </div>
+            </div>
+         </div>
+
+         <!-- Pharyngitis Analysis -->
+         <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <div class="p-6">
+               <div class="flex items-center mb-4">
+                  <div class="bg-purple-100 p-3 rounded-lg mr-4">
+                     <i class="fas fa-lungs text-purple-600 text-xl"></i>
+                  </div>
+                  <h3 class="text-xl font-semibold text-gray-900">Pharyngitis Analysis</h3>
+               </div>
+               <p class="text-gray-600 mb-4">Analyze throat images for pharyngitis symptoms</p>
+               <div class="space-y-4">
+                  <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-primary transition-colors duration-300">
+                     <input type="file" id="pharyngitis-file" accept="image/*" class="hidden" onchange="handleFileSelect(this, 'pharyngitis')">
+                     <label for="pharyngitis-file" class="cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-gray-400 text-2xl mb-2 block"></i>
+                        <span class="text-gray-600">Click to upload image</span>
+                     </label>
+                  </div>
+                  <button onclick="analyzeImage('pharyngitis')" class="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors duration-300 disabled:opacity-50" disabled>
+                     <i class="fas fa-search mr-2"></i>Analyze Pharyngitis
+                  </button>
+               </div>
+            </div>
+         </div>
+
+         <!-- Foreign Body Detection -->
+         <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 md:col-span-2 lg:col-span-1">
+            <div class="p-6">
+               <div class="flex items-center mb-4">
+                  <div class="bg-red-100 p-3 rounded-lg mr-4">
+                     <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+                  </div>
+                  <h3 class="text-xl font-semibold text-gray-900">Foreign Body Detection</h3>
+               </div>
+               <p class="text-gray-600 mb-4">Detect foreign objects in medical images</p>
+               <div class="space-y-4">
+                  <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-primary transition-colors duration-300">
+                     <input type="file" id="foreign-file" accept="image/*" class="hidden" onchange="handleFileSelect(this, 'foreign')">
+                     <label for="foreign-file" class="cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-gray-400 text-2xl mb-2 block"></i>
+                        <span class="text-gray-600">Click to upload image</span>
+                     </label>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2">
+                     <button onclick="analyzeImage('foreign-inference')" class="bg-danger text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors duration-300 disabled:opacity-50" disabled>
+                        <i class="fas fa-brain mr-1"></i>Run Inference
+                     </button>
+                     <button onclick="analyzeImage('foreign-detect')" class="bg-warning text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition-colors duration-300 disabled:opacity-50" disabled>
+                        <i class="fas fa-search mr-1"></i>Detect
+                     </button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <!-- Results Section -->
+      <div id="resultsSection" class="hidden">
+         <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Analysis Results</h3>
+            <div id="resultsContent" class="space-y-4">
+               <!-- Results will be populated here -->
+            </div>
+         </div>
+      </div>
+
+      <!-- Loading Modal -->
+      <div id="loadingModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+         <div class="bg-white rounded-lg p-8 max-w-sm mx-4">
+            <div class="text-center">
+               <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+               <h3 class="text-lg font-semibold text-gray-900 mb-2">Analyzing Image</h3>
+               <p class="text-gray-600">Please wait while our AI processes your image...</p>
+            </div>
+         </div>
+      </div>
+   </main>
+
+   <!-- Footer -->
+   <footer class="bg-white border-t border-gray-200 mt-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+         <div class="text-center text-gray-600">
+            <p>&copy; 2024 Medical Image Analysis API. Powered by Deep Learning.</p>
+         </div>
+      </div>
+   </footer>
+
+   <script>
+      const API_BASE_URL = 'http://localhost:4000';
+      let selectedFiles = {};
+
+      // Check API status on page load
+      async function checkApiStatus() {
+         try {
+            const response = await fetch(`${API_BASE_URL}/`);
+            const data = await response.json();
+            const statusElement = document.getElementById('apiStatus');
+
+            if (response.ok) {
+               statusElement.textContent = 'Online';
+               statusElement.className = 'px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800';
+            } else {
+               throw new Error('API not responding');
+            }
+         } catch (error) {
+            const statusElement = document.getElementById('apiStatus');
+            statusElement.textContent = 'Offline';
+            statusElement.className = 'px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800';
+         }
+      }
+
+      // Handle file selection
+      function handleFileSelect(input, type) {
+         const file = input.files[0];
+         if (file) {
+            selectedFiles[type] = file;
+
+            // Enable corresponding button(s)
+            if (type === 'foreign') {
+               document.querySelector('button[onclick="analyzeImage(\'foreign-inference\')"]').disabled = false;
+               document.querySelector('button[onclick="analyzeImage(\'foreign-detect\')"]').disabled = false;
+            } else {
+               document.querySelector(`button[onclick="analyzeImage('${type}')"]`).disabled = false;
+            }
+
+            // Update UI to show file selected
+            const label = input.nextElementSibling;
+            label.innerHTML = `
+                    <i class="fas fa-check-circle text-green-500 text-2xl mb-2 block"></i>
+                    <span class="text-green-600 font-medium">${file.name}</span>
+                `;
+            label.parentElement.classList.remove('border-gray-300');
+            label.parentElement.classList.add('border-green-500', 'bg-green-50');
+         }
+      }
+
+      // Analyze image
+      async function analyzeImage(type) {
+         let endpoint, fileKey;
+
+         switch (type) {
+            case 'sinusitis':
+               endpoint = '/api/sinusitis/analyze';
+               fileKey = 'sinusitis';
+               break;
+            case 'cholesteatoma':
+               endpoint = '/api/cholesteatoma/analyze';
+               fileKey = 'cholesteatoma';
+               break;
+            case 'pharyngitis':
+               endpoint = '/api/pharyngitis/analyze';
+               fileKey = 'pharyngitis';
+               break;
+            case 'foreign-inference':
+               endpoint = '/api/foreign/run-inference';
+               fileKey = 'foreign';
+               break;
+            case 'foreign-detect':
+               endpoint = '/api/foreign/detect';
+               fileKey = 'foreign';
+               break;
+         }
+
+         const file = selectedFiles[fileKey];
+         if (!file) {
+            alert('Please select a file first');
+            return;
+         }
+
+         // Show loading modal
+         document.getElementById('loadingModal').classList.remove('hidden');
+         document.getElementById('loadingModal').classList.add('flex');
+
+         try {
+            const formData = new FormData();
+            formData.append('file', file);
+            if (type.includes('foreign-detect')) {
+               formData.append('image', file);
+            }
+
+            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+               method: 'POST',
+               body: formData
+            });
+
+            const result = await response.json();
+
+            // Hide loading modal
+            document.getElementById('loadingModal').classList.add('hidden');
+            document.getElementById('loadingModal').classList.remove('flex');
+
+            // Display results
+            displayResults(type, result, response.ok);
+
+         } catch (error) {
+            // Hide loading modal
+            document.getElementById('loadingModal').classList.add('hidden');
+            document.getElementById('loadingModal').classList.remove('flex');
+
+            displayResults(type, { error: error.message }, false);
+         }
+      }
+
+      // Display results
+      function displayResults(type, data, success) {
+         const resultsSection = document.getElementById('resultsSection');
+         const resultsContent = document.getElementById('resultsContent');
+
+         const typeNames = {
+            'sinusitis': 'Sinusitis Analysis',
+            'cholesteatoma': 'Cholesteatoma Analysis',
+            'pharyngitis': 'Pharyngitis Analysis',
+            'foreign-inference': 'Foreign Body Inference',
+            'foreign-detect': 'Foreign Body Detection'
+         };
+
+         const resultHtml = `
+                <div class="border rounded-lg p-4 ${success ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}">
+                    <div class="flex items-center mb-3">
+                        <i class="fas ${success ? 'fa-check-circle text-green-600' : 'fa-exclamation-circle text-red-600'} mr-2"></i>
+                        <h4 class="font-semibold ${success ? 'text-green-800' : 'text-red-800'}">${typeNames[type]}</h4>
+                    </div>
+                    <div class="text-sm ${success ? 'text-green-700' : 'text-red-700'}">
+                        <pre class="whitespace-pre-wrap font-mono bg-white p-3 rounded border">${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                </div>
+            `;
+
+         resultsContent.innerHTML = resultHtml + resultsContent.innerHTML;
+         resultsSection.classList.remove('hidden');
+
+         // Scroll to results
+         resultsSection.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      // Initialize page
+      document.addEventListener('DOMContentLoaded', function () {
+         checkApiStatus();
+      });
+   </script>
+</body>
+
+</html>

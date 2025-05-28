@@ -1,13 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 import logging
 from routes import router
+from fastapi.responses import HTMLResponse
+import os
 
 # For specific route
 # from routes import predict
 
 # Initialize FastAPI app
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="public/assets"), name="static")
 
 # Set up logging for server startup and runtime information
 logging.basicConfig(level=logging.INFO)
@@ -24,7 +29,13 @@ app.add_middleware(
 # Add a root endpoint to provide information about the API
 @app.get("/")
 async def root():
-    return {"message": "Welcome to the Medical Image Analysis API."}
+   file_path = os.path.join("public", "index.html")  # Adjust if needed
+   try:
+      with open(file_path, "r", encoding="utf-8") as f:
+         html_content = f.read()
+      return HTMLResponse(content=html_content, status_code=200)
+   except FileNotFoundError:
+      return HTMLResponse(content="index.html not found", status_code=404)
 
 # Include the router with all routes
 app.include_router(router, prefix="/api")
