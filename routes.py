@@ -6,12 +6,12 @@ from endpoints import process_xray_image, process_endoscopy_image, process_oral_
 router = APIRouter()
 
 # Test route to check server status
-@router.get("/test")
+@router.get("/apiStatus")
 async def test_api():
     """
     Test route to check if the API server is running.
     """
-    return {"message": "API Server is running and working fine!"}
+    return {"status": True, "message": "API Server is running and working fine!"}
 
 # Define the API endpoint for predictions
 @router.post("/sinusitis/analyze")
